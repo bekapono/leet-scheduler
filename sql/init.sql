@@ -12,20 +12,22 @@ CREATE TABLE IF NOT EXISTS problems (
 ---- scheduler
 CREATE TABLE IF NOT EXISTS scheduler (
     id          INT NOT NULL PRIMARY KEY,
-    problem_id  INT NOT NULL REFERENCES problems(id),
+    problem_id  INT NOT NULL,
     due_at      DATE,
     status      VARCHAR(20),
     created_at  DATE NOT NULL,
-    updated_at  DATE
+    updated_at  DATE,
+    FOREIGN KEY (problem_id) REFERENCES problems(id)
 );
 ----   reviews
 CREATE TABLE IF NOT EXISTS reviews
 (
-    id             INT  NOT NULL,
-    problem_id     INT  NOT NULL REFERENCES problems (id),
+    id             INT  NOT NULL PRIMARY KEY,
+    problem_id     INT  NOT NULL,
     reviewed_at    DATE NOT NULL,
     results        VARCHAR(20),
     interval_days  INT  NOT NULL,
-    next_review_at DATE
+    next_review_at DATE,
+    FOREIGN KEY (problem_id) REFERENCES problems(id)
 );
 -- indexes
