@@ -23,5 +23,4 @@ class ProblemService:
     # create/post new
     def create_problem(self, problem: Problem) -> Problem:
         self.repository.add(problem)
-        self.repository.commit()
         return problem
