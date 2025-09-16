@@ -1,6 +1,7 @@
 from app.domain.difficulty_level import DifficultyLevel
 from app.entities.problem_entity import Problem
 from app.repository.problem_repository import ProblemRepository
+from app.dto.problems_dto import ProblemRequestDTO, ProblemResponseDTO
 from typing import Optional
 
 
@@ -21,6 +22,17 @@ class ProblemService:
         return self.repository.list_all_by_difficulty(difficulty)
 
     # create/post new
-    def create_problem(self, problem: Problem) -> Problem:
-        self.repository.add(problem)
-        return problem
+    def create_problem(self, request_dto: ProblemRequestDTO) -> ProblemResponseDTO:
+        new_problem = self.map_to_new_problem(request_dto)
+        self.repository.add(new_problem)
+        return self.map_to_response_dto(new_problem)
+
+    @staticmethod
+    def map_to_new_problem(request_dto: ProblemRequestDTO) -> Problem:
+        """ Not Sure if I like the Enum difficulty class """
+        return Problem(request_dto.get_title(), DifficultyLevel[request_dto.get_difficulty()])
+
+    @staticmethod
+    def map_to_response_dto(problem: Problem) -> ProblemResponseDTO:
+        """ Issue with accessing the entity itself, not to make sure this is secure """
+        return ProblemResponseDTO(problem.title, problem.difficulty, problem.created_on)

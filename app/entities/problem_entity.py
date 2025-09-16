@@ -15,5 +15,10 @@ class Problem(Base):
     created_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(), nullable=False)
     updated_on: Mapped[datetime] = mapped_column(DateTime, onupdate=datetime.now(), nullable=False)
 
+    def __init__(self, title: str, difficulty: DifficultyLevel):
+        super().__init__()  # Got to look at why is this needed?
+        self.title = title
+        self.difficulty = difficulty
+
     def __repr__(self) -> str:
         return f"Problem(id:{self.id}, title={self.title}, difficulty={self.difficulty})"
