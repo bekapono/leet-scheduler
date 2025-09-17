@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List, Any
-
-from ..entities.problem_entity import Problem
-from ..domain.difficulty_level import DifficultyLevel
 from sqlalchemy.orm import Session
+from app.entities.problem_entity import Problem
+from app.domain.difficulty_level import DifficultyLevel
 
 '''
     I'm getting confused with Problem entity, Problems table.
@@ -11,25 +10,7 @@ from sqlalchemy.orm import Session
 '''
 
 
-class ProblemRepository(ABC):
-    @abstractmethod
-    def get_by_id(self, problem_id: int) -> Optional[Problem]:
-        pass
-
-    @abstractmethod
-    def list_all_by_difficulty(self, difficulty: DifficultyLevel) -> list[type[Problem]]:
-        pass
-
-    @abstractmethod
-    def list_all(self) -> list[type[Problem]]:
-        pass
-
-    @abstractmethod
-    def add(self, problem: Problem) -> None:
-        pass
-
-
-class SQLAlchemyProblemRepository(ProblemRepository, ABC):
+class SQLAlchemyProblemRepository:
     def __init__(self, session: Session) -> None:
         self.session = session
 
@@ -48,6 +29,11 @@ class SQLAlchemyProblemRepository(ProblemRepository, ABC):
     def add(self, problem: Problem) -> None:
         self.session.add(problem)
         self.session.commit()
+
+
+class ProblemRepository:
+    def __init__(self, repository: SQLAlchemyProblemRepository):
+        self.repository = repository
 
 
 
