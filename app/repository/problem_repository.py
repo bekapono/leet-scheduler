@@ -4,11 +4,6 @@ from sqlalchemy.orm import Session
 from app.entities.problem_entity import Problem
 from app.domain.difficulty_level import DifficultyLevel
 
-'''
-    I'm getting confused with Problem entity, Problems table.
-    Need to look up if SqlAlchemy query uses the entity? or table name.
-'''
-
 
 class SQLAlchemyProblemRepository:
     def __init__(self, session: Session) -> None:
