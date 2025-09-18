@@ -12,8 +12,8 @@ class Problem(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     difficulty: Mapped[DifficultyLevel] = mapped_column(Enum(DifficultyLevel), nullable=False)
-    created_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(), nullable=False)
-    updated_on: Mapped[datetime] = mapped_column(DateTime, onupdate=datetime.now(), nullable=False)
+    created_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
+    updated_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
     def __init__(self, title: str, difficulty: DifficultyLevel):
         super().__init__()  # Got to look at why is this needed?
