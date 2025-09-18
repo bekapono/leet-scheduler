@@ -1,8 +1,29 @@
+from app.domain import difficulty_level
 from app.domain.difficulty_level import DifficultyLevel
 from datetime import datetime
+from pydantic import BaseModel
 
 
-class ProblemRequestDTO:
+class ProblemRequestDTO(BaseModel):
+    title: str
+    difficulty: str
+
+
+class ProblemResponseDTO(BaseModel):
+    title: str
+    difficulty: DifficultyLevel
+    created_on: datetime
+
+
+class ProblemUpdateDTO(BaseModel):
+    title: str
+    difficulty: str
+
+
+""" The class objects below don't work well with FastAPI so Pydantic models are needed """
+
+
+class ProblemRequest:
     def __init__(self, title: str, difficulty: str) -> None:
         self.__title = title
         self.__difficulty = difficulty
@@ -14,7 +35,7 @@ class ProblemRequestDTO:
         return self.__difficulty
 
 
-class ProblemResponseDTO:
+class ProblemResponse:
     def __init__(self, title, difficulty: DifficultyLevel, created_on: datetime) -> None:
         self.__title = title
         self.__difficulty = difficulty
@@ -30,7 +51,7 @@ class ProblemResponseDTO:
         return self.__created_on
 
 
-class ProblemsUpdateDTO:
+class ProblemsUpdate:
     def __init__(self) -> None:
         self.__title = None
         self.__difficulty = None
