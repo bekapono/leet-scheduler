@@ -1,11 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import Optional, List, Any
+from typing import Optional
 from sqlalchemy.orm import Session
 from app.entities.problem_entity import Problem
 from app.domain.difficulty_level import DifficultyLevel
 
 
-class SQLAlchemyProblemRepository:
+class ProblemRepository:
     def __init__(self, session: Session) -> None:
         self.session = session
 
@@ -24,11 +23,6 @@ class SQLAlchemyProblemRepository:
     def add(self, problem: Problem) -> None:
         self.session.add(problem)
         self.session.commit()
-
-
-class ProblemRepository:
-    def __init__(self, repository: SQLAlchemyProblemRepository):
-        self.repository = repository
 
 
 
