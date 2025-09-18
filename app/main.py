@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import health_check, problems_routes
+from app.routes import health_check, problems_routes
 app = FastAPI()
 
 app.include_router(health_check.router)

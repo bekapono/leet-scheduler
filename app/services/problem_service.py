@@ -30,9 +30,9 @@ class ProblemService:
     @staticmethod
     def map_to_new_problem(request_dto: ProblemRequestDTO) -> Problem:
         """ Not Sure if I like the Enum difficulty class """
-        return Problem(request_dto.get_title(), DifficultyLevel[request_dto.get_difficulty()])
+        return Problem(request_dto.title, DifficultyLevel[request_dto.difficulty])
 
     @staticmethod
     def map_to_response_dto(problem: Problem) -> ProblemResponseDTO:
         """ Issue with accessing the entity itself, not to make sure this is secure """
-        return ProblemResponseDTO(problem.title, problem.difficulty, problem.created_on)
+        return ProblemResponseDTO(title=problem.title, difficulty=problem.difficulty, created_on=problem.created_on)
