@@ -22,7 +22,7 @@ class ProblemService:
         return self.repository.list_all_by_difficulty(difficulty)
 
     # create/post new
-    def create_problem(self, request_dto: ProblemRequestDTO) -> ProblemResponseDTO:
+    async def create_problem(self, request_dto: ProblemRequestDTO) -> ProblemResponseDTO:
         new_problem = self.map_to_new_problem(request_dto)
         self.repository.add(new_problem)
         return self.map_to_response_dto(new_problem)

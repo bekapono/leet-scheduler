@@ -5,7 +5,7 @@ from app.domain.difficulty_level import DifficultyLevel
 
 
 class ProblemRepository:
-    def __init__(self, session: Session) -> None:
+    def __init__(self, session: Session | None) -> None:
         self.session = session
 
     def get_by_id(self, problem_id: int) -> Optional[Problem]:
