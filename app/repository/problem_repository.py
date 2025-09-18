@@ -1,35 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import Optional, List, Any
-
-from ..entities.problem_entity import Problem
-from ..domain.difficulty_level import DifficultyLevel
+from typing import Optional
 from sqlalchemy.orm import Session
-
-'''
-    I'm getting confused with Problem entity, Problems table.
-    Need to look up if SqlAlchemy query uses the entity? or table name.
-'''
+from app.entities.problem_entity import Problem
+from app.domain.difficulty_level import DifficultyLevel
 
 
-class ProblemRepository(ABC):
-    @abstractmethod
-    def get_by_id(self, problem_id: int) -> Optional[Problem]:
-        pass
-
-    @abstractmethod
-    def list_all_by_difficulty(self, difficulty: DifficultyLevel) -> list[type[Problem]]:
-        pass
-
-    @abstractmethod
-    def list_all(self) -> list[type[Problem]]:
-        pass
-
-    @abstractmethod
-    def add(self, problem: Problem) -> None:
-        pass
-
-
-class SQLAlchemyProblemRepository(ProblemRepository, ABC):
+class ProblemRepository:
     def __init__(self, session: Session) -> None:
         self.session = session
 
