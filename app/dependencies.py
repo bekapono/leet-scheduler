@@ -1,6 +1,3 @@
-"""
-    Need to implement the dependencies for router
-"""
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm.session import sessionmaker
 
@@ -10,7 +7,6 @@ from app.services.problem_service import ProblemService
 
 
 class ProblemServiceDependency:
-    """ This class should init ProblemService class with Repository """
     def __init__(self):
         self.repository = ProblemRepository(self.test_session())
         self.problem_service = ProblemService(self.repository)
