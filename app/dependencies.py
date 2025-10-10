@@ -3,7 +3,9 @@ from sqlalchemy.orm.session import sessionmaker
 
 from app.entities.Base_entity import Base
 from app.repository.problem_repository import ProblemRepository
+from app.repository.scheduler_repository import SchedulerRepository
 from app.services.problem_service import ProblemService
+from app.services.scheduler_service import SchedulerService
 
 
 class ProblemServiceDependency:
@@ -23,4 +25,22 @@ class ProblemServiceDependency:
 def problem_service_factory() -> ProblemService:
     dependency = ProblemServiceDependency()
     return dependency.problem_service
+
+
+class SchedulerServiceDependency:
+    def __init__(self):
+        self.repository = SchedulerRepository(self.test_session())
+        self.scheduler_service = SchedulerService(self.repository)
+
+    @staticmethod
+    def test_session():
+        engine = create_engine('sqlite:///test.db', echo=False)
+        Base.metadata.create_all(engine)
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        return session
+
+def scheduler_service_factory() -> SchedulerService:
+    dependency = SchedulerServiceDependency()
+    return dependency.scheduler_service
 
