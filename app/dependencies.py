@@ -8,18 +8,18 @@ from app.services.problem_service import ProblemService
 from app.services.scheduler_service import SchedulerService
 
 
+def test_session():
+    engine = create_engine('sqlite:///test.db', echo=False)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    return session
+
+
 class ProblemServiceDependency:
     def __init__(self):
-        self.repository = ProblemRepository(self.test_session())
+        self.repository = ProblemRepository(test_session())
         self.problem_service = ProblemService(self.repository)
-
-    @staticmethod
-    def test_session():
-        engine = create_engine('sqlite:///test.db', echo=False)
-        Base.metadata.create_all(engine)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        return session
 
 
 def problem_service_factory() -> ProblemService:
@@ -29,16 +29,9 @@ def problem_service_factory() -> ProblemService:
 
 class SchedulerServiceDependency:
     def __init__(self):
-        self.repository = SchedulerRepository(self.test_session())
+        self.repository = SchedulerRepository(test_session())
         self.scheduler_service = SchedulerService(self.repository)
 
-    @staticmethod
-    def test_session():
-        engine = create_engine('sqlite:///test.db', echo=False)
-        Base.metadata.create_all(engine)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        return session
 
 def scheduler_service_factory() -> SchedulerService:
     dependency = SchedulerServiceDependency()
