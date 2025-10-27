@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from typing import Annotated
 
-from app.dependencies import problem_service_factory
+from app.dependencies import problem_service_factory, scheduler_service_factory
 from app.dto.problems_dto import ProblemRequestDTO
 from app.dto.scheduler_dto import SchedulerRequestDTO
 from app.services.problem_service import ProblemService, NewProblemResponseDTO
@@ -14,7 +14,7 @@ router = APIRouter()
 async def create_problems(
         dto: ProblemRequestDTO,
         problem_service: Annotated[ProblemService, Depends(problem_service_factory)],
-        scheduler_service: Annotated[SchedulerService, Depends(SchedulerService)]
+        scheduler_service: Annotated[SchedulerService, Depends(scheduler_service_factory)]
     ) -> NewProblemResponseDTO:
     # return await problem_service.create_problem(dto)
     problem = await problem_service.create_problem(dto)
