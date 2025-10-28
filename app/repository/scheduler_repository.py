@@ -1,10 +1,15 @@
 from datetime import date
 from sqlalchemy.orm import Session
 
+from app.entities.scheduler_entity import Schedule
+
 
 class SchedulerRepository:
     def __init__(self, session: Session | None) -> None:
         self.session = session
+
+    def add(self, schedule: Schedule) -> None:
+        pass
 
     def list_all_problems_due_today(self, today_date: date) -> list[str]:
         """ 

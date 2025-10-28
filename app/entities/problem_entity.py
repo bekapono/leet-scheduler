@@ -9,14 +9,16 @@ from app.domain.difficulty_level import DifficultyLevel
 
 class Problem(Base):
     __tablename__ = 'problems'
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autogenerate=True)
+    problem_number: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
     title: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     difficulty: Mapped[DifficultyLevel] = mapped_column(Enum(DifficultyLevel), nullable=False)
     created_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     updated_on: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
-    def __init__(self, title: str, difficulty: DifficultyLevel):
+    def __init__(self,number:int, title: str, difficulty: DifficultyLevel):
         super().__init__()  # Got to look at why is this needed?
+        self.number = number
         self.title = title
         self.difficulty = difficulty
 
