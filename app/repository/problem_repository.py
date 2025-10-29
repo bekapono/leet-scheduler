@@ -1,8 +1,9 @@
 from typing import Optional
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm import Session
 from app.entities.problem_entity import Problem
 from app.domain.difficulty_level import DifficultyLevel
+from app.exceptions import ProblemAlreadyExists
 
 
 class ProblemRepository:
@@ -25,9 +26,12 @@ class ProblemRepository:
         try:
             self.session.add(problem)
             self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
+            raise ProblemAlreadyExists(f"Problem with id {problem.id} already exists")
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise e
+            raise Exception(f"Database operation failed: {str(e)}")
 
 
 
