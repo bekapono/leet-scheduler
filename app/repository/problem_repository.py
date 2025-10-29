@@ -1,11 +1,12 @@
 from typing import Optional
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from app.entities.problem_entity import Problem
 from app.domain.difficulty_level import DifficultyLevel
 
 
 class ProblemRepository:
-    def __init__(self, session: Session | None) -> None:
+    def __init__(self, session: Session) -> None:
         self.session = session
 
     def get_by_id(self, problem_id: int) -> Optional[Problem]:
@@ -21,8 +22,12 @@ class ProblemRepository:
         return self.session.query(Problem).all()
 
     def add(self, problem: Problem) -> None:
-        self.session.add(problem)
-        self.session.commit()
+        try:
+            self.session.add(problem)
+            self.session.commit()
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise e
 
 
 
