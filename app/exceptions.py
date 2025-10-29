@@ -1,0 +1,4 @@
+
+
+class ProblemAlreadyExists(Exception):
+    pass
