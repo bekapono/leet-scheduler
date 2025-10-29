@@ -9,3 +9,9 @@ engine = create_engine(DB_URL)
 
 SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
+def get_db():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
